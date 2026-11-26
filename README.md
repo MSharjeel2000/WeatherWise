@@ -1,91 +1,107 @@
 # WeatherWise 🌤️
 
-A modern, responsive full-stack weather application built with React, Node.js, Express, and MongoDB. Search for cities, explore current weather conditions and forecasts, and save your favourite locations.
+A modern, responsive full-stack weather application built with **React.js, Node.js, Express.js, and MongoDB**.
 
-WeatherWise uses the Open-Meteo API for location search and weather data.
+WeatherWise allows users to search for cities, explore current weather conditions, view hourly and 7-day forecasts, and save their favourite locations. Weather data is provided by the Open-Meteo API.
+
+## 🌐 Live Demo
+
+**[Explore WeatherWise](https://weatherwise-frontend.vercel.app/)**
+
+## 💻 Source Code
+
+**[View GitHub Repository](https://github.com/MSharjeel2000/WeatherWise)**
 
 ## ✨ Features
 
-- **City Search:** Search for cities and view matching locations.
-- **Current Weather:** View temperature, feels-like temperature, humidity, wind, and other weather conditions.
+- **City Search:** Search for cities and explore matching locations.
+- **Current Weather:** View current temperature and weather conditions.
+- **Feels-Like Temperature:** Check how the temperature actually feels.
+- **Weather Details:** View humidity, wind speed, visibility, and other weather information.
 - **Hourly Forecast:** Explore upcoming hourly weather conditions.
 - **7-Day Forecast:** View weather predictions for the next seven days.
-- **Weather Details:** Access additional weather information, including visibility and UV index.
-- **Favourite Cities:** Save, view, and remove favourite locations.
+- **Favourite Cities:** Save frequently visited locations.
 - **Persistent Storage:** Favourite cities are stored in MongoDB.
-- **Responsive Design:** Designed for desktop, tablet, and mobile screens.
-- **REST API:** A Node.js and Express backend handles weather requests and favourite-city operations.
-- **Docker Support:** Run the complete application using Docker Compose.
+- **Responsive Design:** Optimized for desktop, tablet, and mobile devices.
+- **Loading and Error States:** Helpful feedback during API requests and when errors occur.
 
-## 🛠️ Tech Stack
+## 🛠️ Technology Stack
 
 ### Frontend
-- React 19
-- JavaScript
-- HTML5
-- CSS3
-- Tailwind CSS 4
-- React Router
-- Vite
+- **React.js 19** – Component-based user interface.
+- **JavaScript (ES6+)** – Application logic.
+- **Tailwind CSS 4** – Responsive styling and design.
+- **Vite** – Frontend development server and build tool.
+- **React Router** – Client-side navigation.
+- **Fetch API** – Communication with the backend REST API.
 
 ### Backend
-- Node.js
-- Express 5
-- REST API
-- Mongoose
-- Native Fetch API
+- **Node.js** – JavaScript runtime.
+- **Express.js 5** – Backend framework and REST API development.
+- **Mongoose** – MongoDB object data modeling.
+- **Native Fetch API** – Requests to the external weather service.
 
 ### Database
-- MongoDB
-- MongoDB Compass
+- **MongoDB** – NoSQL database for storing favourite cities.
+- **MongoDB Atlas** – Managed cloud database for production.
 
 ### External API
-- [Open-Meteo](https://open-meteo.com/) — Geocoding and weather forecast data.
+- **[Open-Meteo](https://open-meteo.com/)** – City geocoding and weather forecast data.
 
 ### Development & Deployment Tools
-- Git and GitHub
-- Postman
-- Docker
-- Docker Compose
-- Docker Hub
-- Visual Studio Code
-- npm
+- **Docker** – Application containerization.
+- **Docker Compose** – Multi-container application management.
+- **Docker Hub** – Docker image hosting.
+- **Git & GitHub** – Version control and source code hosting.
+- **Vercel** – Application deployment.
+- **Postman** – API testing.
+- **MongoDB Compass** – Visual database management.
+- **VS Code** – Code editor.
 
-## 🏗️ Project Architecture
+## 🏗️ Application Architecture
 
-WeatherWise follows a frontend-backend-database architecture.
+WeatherWise follows a client-server architecture.
 
 ```text
-                USER
-                  |
-                  v
+                 USER
+                   |
+                   v
           REACT FRONTEND
           (Vite + Tailwind)
-                  |
-                  | HTTP Requests
-                  v
+                   |
+                   | HTTP Requests
+                   v
           EXPRESS BACKEND
              (REST API)
-                  |
-          +-------+-------+
-          |               |
-          v               v
-     OPEN-METEO        MONGODB
-     WEATHER API       DATABASE
-          |               |
-          +-------+-------+
-                  |
-                  v
-           API RESPONSE
-                  |
-                  v
+                   |
+          +--------+--------+
+          |                 |
+          v                 v
+     OPEN-METEO           MONGODB
+     Weather API        Favourite Cities
+          |                 |
+          +--------+--------+
+                   |
+                   v
+          JSON API Responses
+                   |
+                   v
           REACT FRONTEND
-                  |
-                  v
+                   |
+                   v
              USER INTERFACE
 ```
 
-The frontend communicates with the backend through REST endpoints. The backend retrieves weather information from Open-Meteo and manages favourite cities using MongoDB.
+### How It Works
+
+1. Users interact with the React frontend to search for cities or view saved favourites.
+2. The frontend sends HTTP requests to the Express backend.
+3. The backend communicates with Open-Meteo to retrieve location and weather information.
+4. Mongoose handles database operations for saving, retrieving, and deleting favourite cities.
+5. The backend returns structured JSON responses.
+6. React updates the interface with the retrieved information.
+
+The backend keeps external API communication and database operations separate from the frontend.
 
 ## 📁 Project Structure
 
@@ -95,82 +111,90 @@ WeatherWise/
 ├── backend/
 │   ├── src/
 │   │   ├── config/
+│   │   │   └── db.js
+│   │   │
 │   │   ├── controllers/
+│   │   │   ├── weatherController.js
+│   │   │   └── favoriteController.js
+│   │   │
 │   │   ├── middleware/
+│   │   │
 │   │   ├── models/
+│   │   │   └── Favorite.js
+│   │   │
 │   │   ├── routes/
+│   │   │   ├── weatherRoutes.js
+│   │   │   └── favoriteRoutes.js
+│   │   │
 │   │   ├── services/
+│   │   │   └── weatherService.js
+│   │   │
+│   │   ├── app.js
 │   │   └── server.js
 │   │
-│   ├── .env.example
-│   ├── .gitignore
 │   ├── Dockerfile
-│   └── package.json
+│   ├── package.json
+│   └── package-lock.json
 │
 ├── frontend/
 │   ├── public/
+│   │
 │   ├── src/
 │   │   ├── assets/
 │   │   ├── components/
 │   │   ├── pages/
 │   │   ├── services/
-│   │   └── ...
+│   │   ├── App.jsx
+│   │   ├── main.jsx
+│   │   └── index.css
 │   │
-│   ├── .env.example
 │   ├── Dockerfile
 │   ├── nginx.conf
-│   └── package.json
+│   ├── package.json
+│   └── package-lock.json
 │
-├── docker-compose.yml
 ├── .gitignore
+├── docker-compose.yml
 └── README.md
 ```
 
-## 🚀 Getting Started
+## Getting Started
 
-You can run WeatherWise locally or using Docker Compose.
+Follow these instructions to run WeatherWise locally.
 
 ### Prerequisites
 
-For local development:
+Make sure you have installed:
 
-- Node.js (22 recommended)
+- [Node.js](https://nodejs.org/) (Node.js 22 recommended)
 - npm
-- MongoDB
-- Git
-
-For Docker deployment:
-
-- Docker Desktop
-- Docker Compose
+- [MongoDB](https://www.mongodb.com/try/download/community) or a MongoDB Atlas database
+- [Git](https://git-scm.com/)
+- [Docker Desktop](https://www.docker.com/products/docker-desktop/) (for Docker setup)
 
 ### 1. Clone the Repository
 
 ```bash
-git clone YOUR_GITHUB_REPOSITORY_URL
+git clone https://github.com/MSharjeel2000/WeatherWise.git
+
 cd WeatherWise
 ```
 
-Replace `YOUR_GITHUB_REPOSITORY_URL` with your actual GitHub repository URL after publishing the project.
-
-### 2. Configure the Backend
+### 2. Backend Setup
 
 Navigate to the backend directory:
 
 ```bash
 cd backend
+```
+
+Install dependencies:
+
+```bash
 npm install
 ```
 
-Create your local environment file using the example:
-
-**PowerShell:**
-
-```powershell
-Copy-Item .env.example .env
-```
-
-The backend `.env` file should contain:
+Create a `.env` file inside the `backend` directory:
 
 ```env
 PORT=5000
@@ -178,9 +202,9 @@ NODE_ENV=development
 MONGODB_URI=mongodb://127.0.0.1:27017/weatherwise
 ```
 
-Make sure your local MongoDB server is running.
+If you use MongoDB Atlas, replace the local MongoDB connection string with your own Atlas connection string.
 
-Start the backend:
+Start the backend development server:
 
 ```bash
 npm run dev
@@ -188,73 +212,65 @@ npm run dev
 
 The backend will run at:
 
+```text
 http://localhost:5000
+```
 
-### 3. Configure the Frontend
+### 3. Frontend Setup
 
-Open another terminal at the project root:
+Open another terminal and navigate to the frontend directory:
 
 ```bash
 cd frontend
+```
+
+Install dependencies:
+
+```bash
 npm install
 ```
 
-Create the frontend environment file:
-
-**PowerShell:**
-
-```powershell
-Copy-Item .env.example .env
-```
-
-The frontend `.env` file should contain:
+Create a `.env` file inside the `frontend` directory:
 
 ```env
 VITE_API_BASE_URL=http://localhost:5000/api
 ```
 
-Start the frontend:
+Start the frontend development server:
 
 ```bash
 npm run dev
 ```
 
-Open the application:
+The frontend will be available at:
 
+```text
 http://localhost:5173
-
-### 4. Verify the Backend
-
-Visit the health-check endpoint:
-
-http://localhost:5000/api/health
-
-A successful response looks like:
-
-```json
-{
-  "success": true,
-  "message": "WeatherWise backend is running!",
-  "timestamp": "..."
-}
 ```
 
 ## 🐳 Running with Docker
 
-WeatherWise supports Docker Compose, which starts the frontend, backend, and MongoDB together.
+WeatherWise supports Docker Compose to run the frontend, backend, and MongoDB together.
 
-The Docker Compose configuration uses published Docker Hub images.
+### Prerequisites
+
+Make sure Docker Desktop is installed and running.
 
 ### Start the Application
 
-From the project root:
+From the root project directory, pull the published images:
 
 ```bash
 docker compose pull
+```
+
+Start all services:
+
+```bash
 docker compose up -d
 ```
 
-### Access the Services
+### Application URLs
 
 | Service | URL |
 |---|---|
@@ -263,26 +279,32 @@ docker compose up -d
 | Backend Health Check | http://localhost:5000/api/health |
 | MongoDB | localhost:27018 |
 
+MongoDB is accessible on port `27018` from the host machine and uses the internal Docker network for backend communication.
+
 ### Useful Docker Commands
 
-Check running containers:
+View running containers:
 
 ```bash
 docker compose ps
 ```
 
-View logs:
+View application logs:
 
 ```bash
 docker compose logs
 ```
 
-View logs for a specific service:
+View backend logs:
 
 ```bash
 docker compose logs backend
+```
+
+View frontend logs:
+
+```bash
 docker compose logs frontend
-docker compose logs mongo
 ```
 
 Stop the application:
@@ -291,27 +313,24 @@ Stop the application:
 docker compose down
 ```
 
-**Note:** The MongoDB data is stored in a Docker named volume, allowing favourite cities to persist when containers are stopped and restarted. Avoid `docker compose down -v` unless you intentionally want to delete that stored database volume.
-
-## 📦 Docker Hub Images
-
-The application images are published on Docker Hub.
-
-| Image | Repository |
-|---|---|
-| Backend | [weatherwise-backend](https://hub.docker.com/r/sharjeel10/weatherwise-backend) |
-| Frontend | [weatherwise-frontend](https://hub.docker.com/r/sharjeel10/weatherwise-frontend) |
-
-Pull the images individually:
+Stop the application and remove its containers and network:
 
 ```bash
-docker pull sharjeel10/weatherwise-backend:latest
-docker pull sharjeel10/weatherwise-frontend:latest
+docker compose down
 ```
+
+The MongoDB data volume is used to preserve database data between container restarts.
+
+### Docker Hub Images
+
+WeatherWise images are published on Docker Hub:
+
+- **Backend:** [sharjeel10/weatherwise-backend](https://hub.docker.com/r/sharjeel10/weatherwise-backend)
+- **Frontend:** [sharjeel10/weatherwise-frontend](https://hub.docker.com/r/sharjeel10/weatherwise-frontend)
 
 ## 🔌 REST API Documentation
 
-The backend exposes the following endpoints.
+The backend exposes REST API endpoints for weather information and favourite city management.
 
 Base URL:
 
@@ -325,36 +344,36 @@ http://localhost:5000/api
 |---|---|---|
 | GET | `/health` | Check backend availability |
 
-### Weather
+### Weather Endpoints
 
 | Method | Endpoint | Description |
 |---|---|---|
 | GET | `/weather/search?q={city}` | Search for matching cities |
 | GET | `/weather/forecast?latitude={lat}&longitude={lon}` | Retrieve weather forecast |
 
-**Example city search:**
-
-```http
-GET /api/weather/search?q=Islamabad
-```
-
-**Example weather forecast:**
-
-```http
-GET /api/weather/forecast?latitude=33.6844&longitude=73.0479
-```
-
-The forecast includes current weather conditions, hourly forecast information, and a seven-day daily forecast.
-
-### Favourite Cities
+### Favourite City Endpoints
 
 | Method | Endpoint | Description |
 |---|---|---|
-| GET | `/favorites` | Retrieve all favourite cities |
-| POST | `/favorites` | Add a favourite city |
+| GET | `/favorites` | Retrieve saved favourite cities |
+| POST | `/favorites` | Add a city to favourites |
 | DELETE | `/favorites/:id` | Remove a favourite city |
 
-**Add a favourite city:**
+### Example Requests
+
+**Search for a city**
+
+```http
+GET /api/weather/search?q=London
+```
+
+**Retrieve weather forecast**
+
+```http
+GET /api/weather/forecast?latitude=51.5072&longitude=-0.1276
+```
+
+**Add a favourite city**
 
 ```http
 POST /api/favorites
@@ -365,104 +384,96 @@ Request body:
 
 ```json
 {
-  "name": "Islamabad",
-  "country": "Pakistan",
-  "latitude": 33.6844,
-  "longitude": 73.0479
+  "name": "London",
+  "country": "United Kingdom",
+  "latitude": 51.5072,
+  "longitude": -0.1276
 }
 ```
 
-**Delete a favourite city:**
+**Retrieve favourite cities**
 
 ```http
-DELETE /api/favorites/MONGODB_DOCUMENT_ID
+GET /api/favorites
 ```
 
-### API Response and Validation
+**Remove a favourite city**
 
-The API uses JSON responses and appropriate HTTP status codes.
+```http
+DELETE /api/favorites/:id
+```
 
-Some examples:
+## 🌦️ Weather Data Provider
 
-| Status Code | Meaning |
-|---|---|
-| 200 | Request successful |
-| 201 | Resource created |
-| 400 | Invalid or missing input |
-| 404 | Resource not found |
-| 409 | Duplicate favourite city |
-| 500 | Internal server error |
+WeatherWise uses [Open-Meteo](https://open-meteo.com/) for weather information.
 
-## 🌍 Weather Data
+Open-Meteo provides:
 
-WeatherWise uses two Open-Meteo services:
+- Geocoding and city search.
+- Current weather conditions.
+- Hourly weather forecasts.
+- Daily weather forecasts.
+- Weather-related measurements such as temperature, humidity, and wind speed.
 
-- **Geocoding API:** Finds matching locations from a city name.
-- **Forecast API:** Retrieves current conditions, hourly data, and daily forecasts using geographic coordinates.
+Open-Meteo does not require an API key for its standard non-commercial API usage.
 
-The application requests weather information such as:
+Weather requests are handled by the backend rather than directly by the frontend.
 
-- Temperature
-- Apparent temperature
-- Relative humidity
-- Precipitation
-- Weather conditions
-- Wind speed and direction
-- Visibility
-- UV index
-- Daily maximum and minimum temperatures
+## ☁️ Production Deployment
 
-Standard Open-Meteo forecast and geocoding endpoints are used without requiring an API key.
+WeatherWise is deployed using Vercel and MongoDB Atlas.
 
-## 🔐 Environment Variables
+| Component | Platform | Details |
+|---|---|---|
+| Frontend | Vercel | React application |
+| Backend | Vercel | Express REST API |
+| Database | MongoDB Atlas | Cloud-hosted MongoDB |
+| Weather Service | Open-Meteo | External weather data |
+| Container Images | Docker Hub | Published frontend and backend images |
+| Source Code | GitHub | Project repository |
 
-Environment files are excluded from Git to prevent accidental exposure of local configuration and secrets.
+### Production Links
 
-The repository includes `.env.example` files to show the required configuration.
+- **Live Application:** https://weatherwise-frontend.vercel.app/
+- **Backend API:** https://backend-eight-nu-96.vercel.app
+- **GitHub Repository:** https://github.com/MSharjeel2000/WeatherWise
 
-| Variable | Purpose |
+### Environment Variables
+
+The application uses environment variables to configure its services.
+
+**Backend**
+
+| Variable | Description |
 |---|---|
 | `PORT` | Backend server port |
 | `NODE_ENV` | Application environment |
 | `MONGODB_URI` | MongoDB connection string |
-| `VITE_API_BASE_URL` | Backend API base URL used by the frontend |
+| `FRONTEND_URL` | Allowed frontend origin for CORS |
 
-## 🧪 Development Commands
+**Frontend**
 
-### Backend
+| Variable | Description |
+|---|---|
+| `VITE_API_BASE_URL` | Backend API base URL |
 
-```bash
-npm run dev
-```
+Actual environment files and database credentials are not included in the GitHub repository.
 
-```bash
-npm start
-```
+## 🔒 Security Considerations
 
-### Frontend
-
-```bash
-npm run dev
-```
-
-```bash
-npm run build
-```
-
-```bash
-npm run lint
-```
-
-```bash
-npm run preview
-```
+- Database credentials are stored in environment variables.
+- Environment files are excluded from version control.
+- The frontend communicates with the backend through REST APIs.
+- CORS is configured to allow the deployed frontend origin.
+- MongoDB Atlas database access is configured separately from application source code.
 
 ## 👨‍💻 Developer
 
 **Developed by Muhammad Sharjeel Sarwar**
 
-Built as a full-stack development portfolio project to demonstrate practical experience with React, Node.js, Express, MongoDB, REST APIs, and Docker.
+- GitHub: [MSharjeel2000](https://github.com/MSharjeel2000)
+- Project: [WeatherWise](https://github.com/MSharjeel2000/WeatherWise)
 
 ---
 
-⭐ If you find this project interesting, consider giving the repository a star!
+If you find this project useful, consider giving the repository a ⭐ on GitHub!
